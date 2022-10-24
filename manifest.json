@@ -1,0 +1,11 @@
+{
+  "name": "Colors",
+  "id": "1166136206398828840",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma",
+    "figjam"
+  ],
+  "ui": "ui.html"
+}

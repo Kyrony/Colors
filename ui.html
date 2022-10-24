@@ -1,0 +1,119 @@
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+  }
+
+  .color-picker {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 4px;
+    gap: 4px;
+  }
+
+  li {
+    display: flex;
+    flex-direction: row;
+    padding: 4px;
+    border-radius: 4px;
+    list-style: none;
+    min-width: 20px;
+  }
+
+  ul {
+    min-width: 300px;
+    padding: 10px;
+  }
+
+  ul div {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    margin: 0px 5px;
+  }
+
+  button {
+    width: 120px;
+    height: 40px;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+    margin: 1px;
+  }
+</style>
+
+<h2>Color Typography Creator</h2>
+
+<div class="color-picker">
+  <h4>Color Name: </h4>
+  <select name="name" id="name">
+    <!-- Programatically add Names -->
+  </select>
+
+  <label for="colorpicker">Color: </label>
+  <input type="color" id="color" value="#000000">
+  <button id="add">Add</button>
+</div>
+
+<ul>
+  <!-- Generate Color List -->
+</ul>
+
+<button id="generate">Generate</button>
+<button id="cancel">Cancel</button>
+
+
+<script>
+
+let colors = [];
+let options = [
+  'Primary',
+  'On Primary',
+  'Primary Special',
+  'Secondary',
+  'On Secondary',
+  'Secondary Special',
+  'Error',
+  'On Error',
+  'Background',
+  'On Background'
+];
+
+let select = document.getElementById('name')
+
+for(let i = 0; i < options.length; i++) {
+  var opt = document.createElement('option');
+  opt.value = options[i]
+  opt.innerHTML = options[i]
+  select.appendChild(opt)
+}
+
+document.getElementById('add').onclick = () => {
+  let color  = {}
+  color.name = document.getElementById('name').value
+  color.color = document.getElementById('color').value
+  colors.push(color)
+
+  var item = document.createElement('li');
+  var colorSplash = document.createElement('div')
+  item.appendChild(colorSplash)
+  item.appendChild(document.createTextNode(color.name))
+  colorSplash.style.backgroundColor = color.color
+  document.querySelector('ul').appendChild(item)
+
+  select.remove(select.selectedIndex)
+}
+
+document.getElementById('generate').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'generate-colors', colors } }, '*')
+}
+
+document.getElementById('cancel').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+}
+
+</script>
